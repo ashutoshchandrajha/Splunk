@@ -1,0 +1,2 @@
+# Splunk
+sample splunk queries
