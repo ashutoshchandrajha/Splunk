@@ -1,0 +1,22 @@
+#Plot average of any group comparing for a particular day for this and last week
+#
+#index=tradestream sourcetype = tradestream-binary earliest=-2w@w latest=@w| timechart avg(Group2) span=1h  | timewrap w | where strftime(_time, "%A") == "Wednesday" | rename avg(Group2)_latest_week as this_wednesday | rename avg(Group2)_1week_before as last_wednesday
+
+#Average of Group2 comparing data for last 4 days
+#
+#index=tradestream sourcetype = tradestream-binary earliest=-4d@d latest=@d| timechart avg(Group2) span=1h  | timewrap d | rename avg(Group2)_latest_day as Today | rename avg(Group2)_1day_before as Yesterday | rename avg(Group2)_2days_before as 2days_before | rename avg(Group2)_3days_before as 3days_before
+
+#Plot average of any group comparing the data of today and yesterday
+#
+#index=tradestream sourcetype = tradestream-binary earliest=-2d@d latest=@d| timechart avg(Group2) span=1h  | timewrap d
+
+#Chart average of last 4 Thursday vs Today in a Timechart
+#
+#"index=tradestream sourcetype=""tradestream-binary"" | timechart avg(Group2) span=1h 
+| where strftime(_time, ""%A"") == strftime(now(),""%A"") 
+| timewrap w 
+| rename avg(Group2)_2weeks_before as AvgBytesTotal2 | rename avg(Group2)_1week_before as AvgBytesTotal1| rename avg(Group2)_3weeks_before as AvgBytesTotal3 | addtotals ""AvgBytesTotal1"" ""AvgBytesTotal2"" ""AvgBytesTotal3""| eval avg=Total/3.0
+| table _time, avg(Group2)_latest_week, avg"
+
+
+#index=tradestream sourcetype = tradestream-binary earliest=-2w@w latest=@w| timechart avg(Group2) span=1h  | timewrap w | rename avg(Group2)_latest_week as latest_week | rename avg(Group2)_1week_before as last_week
